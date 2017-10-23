@@ -285,6 +285,8 @@ int main(int argc, char const *argv[]) {
   //sorter -c food
   if(argc==3){
     //Parse everything in this single directory
+    //Every time we hit a CSV file in this direcotry, fork
+    //Parse into database, mergesort
 
   }
   //sorter -c food -d thisdir/thatdir
