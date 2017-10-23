@@ -1,5 +1,6 @@
-
-bool isValidColumn(char* columnArg){
+#include "sorter.h"
+#include "mergesort.c"
+bool isValidColumn(const char* columnArg){
   if(
   strcmp(columnArg, "color")!= 0
   && strcmp(columnArg, "director_name")!= 0
@@ -298,7 +299,7 @@ int main(int argc, char const *argv[]) {
     exit(1);
   }
 
-  if(!isValidColumn(argv[2])){
+  if(isValidColumn(argv[2])!=true){
     printf("invalid parameter\n");
     exit(1);
   }
