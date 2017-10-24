@@ -255,11 +255,9 @@ char* findColumnType(const char* value){
     //return -1;
   }
 }
-
 char* getCurrentDirectory(){
   char cwd[1024];
   if (getcwd(cwd, sizeof(cwd)) != NULL){
-    fprintf(stdout, "Current working dir: %s\n", cwd);
     return cwd;
   }
 
