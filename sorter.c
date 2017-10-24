@@ -256,35 +256,26 @@ char* findColumnType(const char* value){
   }
 }
 
-void listdir(const char *name, int indent)
-{
-    DIR *dir;
-    struct dirent *entry;
+char* getCurrentDirectory(){
+  char cwd[1024];
+  if (getcwd(cwd, sizeof(cwd)) != NULL){
+    fprintf(stdout, "Current working dir: %s\n", cwd);
+    return cwd;
+  }
 
-    if (!(dir = opendir(name)))
-        return;
-
-    while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_DIR) {
-            char path[1024];
-            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-                continue;
-            snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
-            printf("%*s[%s]\n", indent, "", entry->d_name);
-            listdir(path, indent + 2);
-        } else {
-            printf("%*s- %s\n", indent, "", entry->d_name);
-        }
-    }
-    closedir(dir);
+  else{
+    printf("Error getting directory\n");
+  }
 }
-
 
 int main(int argc, char const *argv[]) {
   Records* input = (Records*)malloc(sizeof(Records)*8000);
 
   int indexToSortOn = -1;
   char*data_type = (char*)malloc(sizeof(char)*10);
+
+  char* currentWorkingDirectory;
+  currentWorkingDirectory = getCurrentDirectory();
 
   if(argc<3 || argc>7){
     printf("invalid arguments!\n");
@@ -306,6 +297,8 @@ int main(int argc, char const *argv[]) {
 
   indexToSortOn = findColumnIndex(argv[2]);
   data_type = findColumnType(argv[2]);
+
+
 
   //sorter -c food
   if(argc==3){
