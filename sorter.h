@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#include <glob.h>
 #include <math.h>
 
 typedef struct Records{

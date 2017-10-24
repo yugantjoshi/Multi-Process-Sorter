@@ -265,6 +265,22 @@ char* getCurrentDirectory(){
     printf("Error getting directory\n");
   }
 }
+void listCSV(char* currentWorkingDirectory){
+  const char *pattern = "./*.csv";
+  glob_t pglob;
+
+  glob(pattern, GLOB_ERR, NULL, &pglob);
+
+  printf("Found %d matches\n", pglob.gl_pathc);
+  //printf("First match: %s\n", pglob.gl_pathv[0]);
+  int i;
+  for(i=0; i<pglob.gl_pathc; i++){
+    if(pglob.gl_pathv[i]!=NULL){
+      printf("Found CSV: %s\n", pglob.gl_pathv[i]);
+    }
+  }
+  globfree(&pglob);
+}
 
 int main(int argc, char const *argv[]) {
   Records* input = (Records*)malloc(sizeof(Records)*8000);
@@ -274,6 +290,7 @@ int main(int argc, char const *argv[]) {
 
   char* currentWorkingDirectory;
   currentWorkingDirectory = getCurrentDirectory();
+  listCSV(currentWorkingDirectory);
 
   if(argc<3 || argc>7){
     printf("invalid arguments!\n");
