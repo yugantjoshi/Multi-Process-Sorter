@@ -30,9 +30,9 @@ bool isValidColumn(const char* columnArg){
   && strcmp(columnArg, "imdb_score")!= 0
   && strcmp(columnArg, "aspect_ratio")!= 0
   && strcmp(columnArg, "movie_facebook_likes")!= 0){
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
 int findColumnIndex(const char* value){
   if(strcmp(value, "color") == 0){
@@ -272,7 +272,7 @@ void listCSV(char* currentWorkingDirectory){
   glob(pattern, GLOB_ERR, NULL, &pglob);
 
   printf("Found %d matches\n", pglob.gl_pathc);
-  //printf("First match: %s\n", pglob.gl_pathv[0]);
+
   int i;
   for(i=0; i<pglob.gl_pathc; i++){
     if(pglob.gl_pathv[i]!=NULL){
@@ -286,10 +286,11 @@ int main(int argc, char const *argv[]) {
   Records* input = (Records*)malloc(sizeof(Records)*8000);
 
   int indexToSortOn = -1;
-  char*data_type = (char*)malloc(sizeof(char)*10);
-
+  char* data_type = (char*)malloc(sizeof(char)*10);
+  char* columnArg = argv[2];
   char* currentWorkingDirectory;
   currentWorkingDirectory = getCurrentDirectory();
+
   listCSV(currentWorkingDirectory);
 
   if(argc<3 || argc>7){
@@ -305,15 +306,13 @@ int main(int argc, char const *argv[]) {
     exit(1);
   }
 
-  if(isValidColumn(argv[2])!=true){
+  if(isValidColumn(columnArg)==true){
     printf("invalid parameter\n");
     exit(1);
   }
 
   indexToSortOn = findColumnIndex(argv[2]);
   data_type = findColumnType(argv[2]);
-
-
 
   //sorter -c food
   if(argc==3){
