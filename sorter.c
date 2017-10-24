@@ -281,18 +281,7 @@ void listCSV(char* currentWorkingDirectory){
   }
   globfree(&pglob);
 }
-
-int main(int argc, char const *argv[]) {
-  Records* input = (Records*)malloc(sizeof(Records)*8000);
-
-  int indexToSortOn = -1;
-  char* data_type = (char*)malloc(sizeof(char)*10);
-  char* columnArg = argv[2];
-  char* currentWorkingDirectory;
-  currentWorkingDirectory = getCurrentDirectory();
-
-  listCSV(currentWorkingDirectory);
-
+void isValidArgments(int argc){
   if(argc<3 || argc>7){
     printf("invalid arguments!\n");
     exit(1);
@@ -305,20 +294,52 @@ int main(int argc, char const *argv[]) {
     printf("invalid arguments!\n");
     exit(1);
   }
+}
+void listdir(const char *name, int indent){
+    DIR *dir;
+    struct dirent *entry;
 
-  if(isValidColumn(columnArg)==true){
+    if (!(dir = opendir(name)))
+        return;
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_DIR) {
+            char path[1024];
+            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+                continue;
+            snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
+            printf("%*s[%s]\n", indent, "", entry->d_name);
+            listdir(path, indent + 2);
+        } else {
+            printf("%*s- %s\n", indent, "", entry->d_name);
+        }
+    }
+    closedir(dir);
+}
+
+int main(int argc, char const *argv[]) {
+  Records* input = (Records*)malloc(sizeof(Records)*8000);
+
+  int indexToSortOn = -1;
+  char* data_type = (char*)malloc(sizeof(char)*10);
+  char* columnArg = argv[2];
+  char* currentWorkingDirectory;
+  currentWorkingDirectory = getCurrentDirectory();
+
+  isValidArgments(argc);
+  if(isValidColumn(columnArg)==false){
     printf("invalid parameter\n");
     exit(1);
   }
-
   indexToSortOn = findColumnIndex(argv[2]);
   data_type = findColumnType(argv[2]);
 
-  //sorter -c food
+  listdir(currentWorkingDirectory, 0);
+
+
+  //sorter -c director_name
   if(argc==3){
-    //Parse everything in this single directory
-    //Every time we hit a CSV file in this direcotry, fork
-    //Parse into database, mergesort
+    //Use DFS in directory, at each .csv fork
 
   }
   //sorter -c food -d thisdir/thatdir
