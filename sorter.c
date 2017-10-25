@@ -265,22 +265,6 @@ char* getCurrentDirectory(){
     printf("Error getting directory\n");
   }
 }
-void listCSV(char* currentWorkingDirectory){
-  const char *pattern = "./*.csv";
-  glob_t pglob;
-
-  glob(pattern, GLOB_ERR, NULL, &pglob);
-
-  printf("Found %d matches\n", pglob.gl_pathc);
-
-  int i;
-  for(i=0; i<pglob.gl_pathc; i++){
-    if(pglob.gl_pathv[i]!=NULL){
-      printf("Found CSV: %s\n", pglob.gl_pathv[i]);
-    }
-  }
-  globfree(&pglob);
-}
 void isValidArgments(int argc){
   if(argc<3 || argc>7){
     printf("invalid arguments!\n");
@@ -308,13 +292,25 @@ void listdir(const char *name, int indent){
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
             snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
-            printf("%*s[%s]\n", indent, "", entry->d_name);
+            //printf("%*s[%s]\n", indent, "", entry->d_name);
             currentWorkingDirectory = &path;
-            printf("currentWorkingDirectory %s\n", currentWorkingDirectory);
-            listCSV(currentWorkingDirectory);
             listdir(path, indent + 2);
         } else {
-            printf("%*s- %s\n", indent, "", entry->d_name);
+            //printf("%*s- %s\n", indent, "", entry->d_name);
+            char* currentFileName = entry->d_name;
+            //printf("currentFileName %s\n", currentFileName);
+
+            char* lastThree = (char*)malloc(sizeof(char)*3);
+            lastThree[0] = currentFileName[strlen(currentFileName)-3];
+            lastThree[1] = currentFileName[strlen(currentFileName)-2];
+            lastThree[2] = currentFileName[strlen(currentFileName)-1];
+
+            if(strcmp(lastThree, "csv") == 0){
+              printf("FOUND CSV: %s\n", currentFileName);
+              //Need to fork here with the current file
+            }
+
+
         }
     }
 
