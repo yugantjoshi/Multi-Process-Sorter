@@ -298,17 +298,21 @@ void isValidArgments(int argc){
 void listdir(const char *name, int indent){
     DIR *dir;
     struct dirent *entry;
+    char* currentWorkingDirectory;
     if (!(dir = opendir(name)))
         return;
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_DIR) {
             char path[1024];
+
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
             snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
             printf("%*s[%s]\n", indent, "", entry->d_name);
+            currentWorkingDirectory = &path;
+            printf("currentWorkingDirectory %s\n", currentWorkingDirectory);
+            listCSV(currentWorkingDirectory);
             listdir(path, indent + 2);
-
         } else {
             printf("%*s- %s\n", indent, "", entry->d_name);
         }
