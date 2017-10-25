@@ -298,10 +298,8 @@ void isValidArgments(int argc){
 void listdir(const char *name, int indent){
     DIR *dir;
     struct dirent *entry;
-
     if (!(dir = opendir(name)))
         return;
-
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_DIR) {
             char path[1024];
@@ -310,10 +308,12 @@ void listdir(const char *name, int indent){
             snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
             printf("%*s[%s]\n", indent, "", entry->d_name);
             listdir(path, indent + 2);
+
         } else {
             printf("%*s- %s\n", indent, "", entry->d_name);
         }
     }
+
     closedir(dir);
 }
 
@@ -325,7 +325,7 @@ int main(int argc, char const *argv[]) {
   char* columnArg = argv[2];
   char* currentWorkingDirectory;
   currentWorkingDirectory = getCurrentDirectory();
-
+  //printf("currentWorkingDirectory %s\n", currentWorkingDirectory);
   isValidArgments(argc);
   if(isValidColumn(columnArg)==false){
     printf("invalid parameter\n");
@@ -336,7 +336,6 @@ int main(int argc, char const *argv[]) {
 
   listdir(currentWorkingDirectory, 0);
 
-
   //sorter -c director_name
   if(argc==3){
     //Use DFS in directory, at each .csv fork
@@ -345,10 +344,12 @@ int main(int argc, char const *argv[]) {
   //sorter -c food -d thisdir/thatdir
   else if(argc==5){
     //Parse everything from this directory to that directory
+
   }
   //sorter -c  movie_title -d thisdir -o thatdir
   else if(argc==7){
     //Parse everything from this directory, output somewhere
+
   }
 
   return 0;
