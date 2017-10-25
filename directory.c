@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include "sorter.c"
 
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
@@ -74,11 +75,11 @@ void printDirInfo(char *dir) {
 
 			//ok so here is where you forl
 			int length=strlen(newPath);
-			int status;
+			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-                int pid=fork();
+                start(newPath);
                 printf("hello\n");
-                pid = wait(&status);
+                //int pid=fork();
 
 			}
 			//check if its csv file
@@ -114,7 +115,6 @@ void printDirInfo(char *dir) {
 
 			strcat(newPath, curObj->d_name);
 			printf(ANSI_COLOR_BLUE "%s" ANSI_COLOR_RESET "\n", newPath);
-			//printf("fun\n");
 			printDirInfo(newPath);
 			free(newPath);
 		}
