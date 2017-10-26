@@ -6,12 +6,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
-#include "sorter.c"
+//#include "sorter.c"
 
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 void printDirInfo(char *dir) {
+   // int initialpidBool=0;
+   // int initialpid=0;
+    int pid;
+
+    int arr[256];
+    int p=0;
+
 	DIR *dp = NULL;
 	struct dirent *curObj = NULL;
 	if ((dp = opendir(dir)) == NULL) {
@@ -77,9 +84,17 @@ void printDirInfo(char *dir) {
 			int length=strlen(newPath);
 			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-                start(newPath);
+                //start(newPath);
                 printf("hello\n");
-                //int pid=fork();
+
+
+                pid=fork();
+                arr[p]=getpid();
+                p++;
+                }
+
+
+
 
 			}
 			//check if its csv file

@@ -352,8 +352,23 @@ int start(char* fileName) {
    char *line=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
     fgets(line,500,fp);
     //fgets(current, 5000,fp);
-    printf("this is first line %s \n",line);
-    /*
+    i =0;
+    length=strlen(line);
+    int count=0;
+
+    while(i<length)
+    {
+        if(line[i]==','){
+            count++;
+        }
+        i++;
+    }
+
+    if(count !=26){
+        //////////////////close
+    }
+   // printf("this is first line %s \n",line);
+
     Records* input= (Records*)malloc(sizeof(Records)*8000);
     //printf("input size %d\n", sizeof(input));
     if(argc != 3)
@@ -433,7 +448,7 @@ int start(char* fileName) {
         j=0;
         commas=0;
 
-        fgets(line,500,stdin);
+        fgets(line,500,fp);
 
 
         //printf("this is first line %s\n",line);
@@ -704,7 +719,7 @@ int start(char* fileName) {
 
         print_csv_file(&input, arraySize-1);
 
-        */
+
 
     return 0;
 }
