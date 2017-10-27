@@ -5,9 +5,9 @@
 #include "mergesort.c"
 
 
-/*
+
 void print_csv_file(Records** finalInput, int arraySize){
-    printf("csv_file\n");
+
   char fileName[] = "sortedMovies.csv";
   FILE *file = fopen(fileName, "w");
 
@@ -296,7 +296,6 @@ int findColumnIndex(const char* value){
   }
 }
 
-*/
 
 int start(char* filePath, char* filename, char *param) {
     char current[200];
@@ -312,6 +311,7 @@ int start(char* filePath, char* filename, char *param) {
 
     char *categories=(char*)malloc(sizeof(char)*500);//this holds the first line till its parsed
     fgets(categories,500,fp);
+
 
     t =0;
     length=strlen(categories);
@@ -365,6 +365,18 @@ int start(char* filePath, char* filename, char *param) {
     exit(1);
   }
 
+  int amount_of_lines=0;
+   while(!feof(fp))
+    {
+     fgets(categories,500,fp);
+     amount_of_lines++;
+    }
+    printf("amount of line %d\n",amount_of_lines);
+    amount_of_lines--;
+    rewind(fp);
+
+     fgets(categories,500,fp);
+
 
     int count=450;//counts the lines we reach;
     int amountofLines=0;
@@ -376,7 +388,7 @@ int start(char* filePath, char* filename, char *param) {
     char token[300];
     char *line=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
 
-     fgets(line,500,fp);
+
     char *data_type =(char*)malloc(sizeof(char)*10);
 
 
@@ -384,8 +396,8 @@ int start(char* filePath, char* filename, char *param) {
       data_type[i] = '-';
     }
 
-
-    while(!feof(fp))
+    int countline=0;
+    while(countline<amount_of_lines)
     {
 
         amountofLines++;
@@ -402,7 +414,7 @@ int start(char* filePath, char* filename, char *param) {
         fgets(line,500,fp);
 
 
-        //printf("this is first line %s\n",line);
+        printf("this is first line %s\n",line);
        // printf("this is line %s\n",line);
        // printf("this is i %i and strlen %i\n",i,strlen(line));
         while(i < strlen(line))
@@ -637,6 +649,7 @@ int start(char* filePath, char* filename, char *param) {
 
 
         }
+        countline++;
 
             input[s].movie_facebook_likes=atoi(token);
             memset(token, 0, 300);//empties token array
@@ -647,7 +660,7 @@ int start(char* filePath, char* filename, char *param) {
 
 
     //const char *param = argv[2];
-    printf("cse\n");const char *sortBY=param;
+   const char *sortBY=param;
     //Determine index to sort on
     //printf("param HERE %s\n", param);
 
