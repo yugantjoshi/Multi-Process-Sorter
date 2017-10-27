@@ -341,7 +341,7 @@ int start(char* filePath, char* filename, char *param) {
         t++;
     }
 
-    printf("this is i %s\n",current);
+    printf("this is i %s\n",param);
 
 
     FILE *fp;
@@ -366,7 +366,7 @@ int start(char* filePath, char* filename, char *param) {
         t++;
     }
 
-    if(c !=26){
+    if(c !=27){
     printf("invalid amount of categories\n");
     exit(1);
     }
