@@ -146,7 +146,6 @@ int main(int argc, char * argv[]) {
     p=0;
 	char * base = ".";
 	char * param = argv[2];
-	printf("this is argc %s\n", param);
 	if (argc == 3) {
 		//base = argv[1];
 		printf("Directory index from %s\n", base);

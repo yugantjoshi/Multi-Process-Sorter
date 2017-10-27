@@ -5,8 +5,9 @@
 #include "mergesort.c"
 
 
-
+/*
 void print_csv_file(Records** finalInput, int arraySize){
+    printf("csv_file\n");
   char fileName[] = "sortedMovies.csv";
   FILE *file = fopen(fileName, "w");
 
@@ -59,6 +60,7 @@ void print_csv_file(Records** finalInput, int arraySize){
 }
 
 void printRecord(Records* input, int s){
+     printf("printRecord\n");
   int arraySize = s;
   int t=0;
   for(t=0; t<arraySize; t++){
@@ -70,6 +72,7 @@ void printRecord(Records* input, int s){
 
 
 char* findColumnType(const char* value){
+     printf("findColunType\n");
     char *data_type = (char*)malloc(sizeof(char*)*30);
     //printf("value %s\n", value);
     //printf("findColumnType value %s\n", value);
@@ -192,6 +195,7 @@ char* findColumnType(const char* value){
 }
 //Find column index based on parameter value passed in from command line
 int findColumnIndex(const char* value){
+     printf("findColumnIndex\n");
   if(strcmp(value, "color") == 0){
     return 0;
   }
@@ -292,68 +296,23 @@ int findColumnIndex(const char* value){
   }
 }
 
-void data_mine(Records* input, int s){
-  //Need to write to text file
-  //Mine for mean, standard deviation, variance
-  //Mean = sum of all Xi's / N for i from 0 to n1
-  int i=0;
-  int countUSA=0;
-  long int sumUSA =0;
-  int countUK=0;
-  long int sumUK=0;
-
-
-  for(i=0; i<s; i++){
-    if(strcmp(input[i].country, "USA")==0){
-      countUSA++;
-      sumUSA=sumUSA + input[i].budget;
-    }
-  }
-  for(i=0; i<s; i++){
-    if(strcmp(input[i].country, "UK")==0){
-      countUK++;
-      //printf("countUK %d\n", countUK);
-      sumUK= sumUK+ input[i].budget;
-    }
-  }
-  //printf("USA: %d UK: %d\n", countUSA, countUK);
-
-  unsigned long  avgUS = sumUSA/countUSA;
-  unsigned long  avgUK = sumUK/countUK;
-  //printf("AVG US: %d AVG US: %d\n", avgUS, avgUK);
-
-char fileName[] = "data_mine.txt";
-FILE *file = fopen(fileName, "w");
-fprintf(file, "The USA produced %d movies and had an average budget of %d compared to the UK which produced %d movies and had an average budget of %d.", countUSA, avgUS, countUK, avgUK);
-fclose(file);
-
-}
-
-
+*/
 
 int start(char* filePath, char* filename, char *param) {
-    //Records* input[5000];
     char current[200];
     int length=strlen(filePath);
     int t=0;
-    while(t<length){
+    while(t<length+1){
         current[t]=filePath[t];
         t++;
     }
 
-    printf("this is i %s\n",param);
-
-
     FILE *fp;
     fp = fopen(current,"r");
-    //printf("hello world \n");
 
-   // while(!feof(fp)){
-     //   printf("wow");
-    //}
-   char *categories=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
+    char *categories=(char*)malloc(sizeof(char)*500);//this holds the first line till its parsed
     fgets(categories,500,fp);
-    //fgets(current, 5000,fp);
+
     t =0;
     length=strlen(categories);
     int c=0;
@@ -367,13 +326,11 @@ int start(char* filePath, char* filename, char *param) {
     }
 
     if(c !=27){
-    printf("invalid amount of categories\n");
-    exit(1);
+        printf("invalid amount of categories\n");
+        exit(1);
     }
-   // printf("this is first line %s \n",line);
 
     Records* input= (Records*)malloc(sizeof(Records)*8000);
-    //printf("input size %d\n", sizeof(input));
 
     if(
     strcmp(param, "color")!= 0
@@ -408,6 +365,7 @@ int start(char* filePath, char* filename, char *param) {
     exit(1);
   }
 
+
     int count=450;//counts the lines we reach;
     int amountofLines=0;
     int y;
@@ -417,24 +375,18 @@ int start(char* filePath, char* filename, char *param) {
     int commas=0;
     char token[300];
     char *line=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
-    fgets(line,500,stdin);
+
+     fgets(line,500,fp);
     char *data_type =(char*)malloc(sizeof(char)*10);
+
 
     for(y =0; y<10; y++){
       data_type[i] = '-';
     }
-    //i=0;
 
-  //  printf("This is the first line: %s\n",line);//this is a tester line showing the first line of data with categories
-    char* first_line = (char*)malloc(sizeof(char)*500);
-    strcpy(first_line, line);
-    //char* parameterToSort = (char*)malloc(sizeof(char)*20);
-    //int countNum = 0;
-    // fgets(line,500,stdin);
-    while(!feof(stdin))
+
+    while(!feof(fp))
     {
-      //printf("count %d\n", countNum);
-        //countNum++;
 
         amountofLines++;
 
@@ -692,34 +644,36 @@ int start(char* filePath, char* filename, char *param) {
             s++;
 
     }
+
+
     //const char *param = argv[2];
-    const char *sortBY=param;
+    printf("cse\n");const char *sortBY=param;
     //Determine index to sort on
     //printf("param HERE %s\n", param);
-   int indexToSortOn = findColumnIndex(sortBY);
+
+  // int indexToSortOn = findColumnIndex(sortBY);
    //printf("indexToSortOn %d\n", indexToSortOn);
    //printf("param after index %s\n", param);
     //Determine datatype of index
-    data_type = findColumnType(sortBY);
+    //data_type = findColumnType(sortBY);
     //printf("data_type %s\n", data_type);
     //printf("param %s\n", param);
     //if statement for invalid
 
-    free(first_line);
+    free(categories);
     int arraySize = s;
     int q=0;
 
-        mergeSort(&input,0,s-1,data_type,sortBY);
+       // mergeSort(&input,0,s-1,data_type,sortBY);
         for(q=0; q<s; q++){
       printf("this is title %s\n",input[q].movie_title);
         }
 
 
-        data_mine(input, arraySize-1);
-
-        print_csv_file(&input, arraySize-1);
-
+        //print_csv_file(&input, arraySize-1);
+//
 
 
     return 0;
 }
+
