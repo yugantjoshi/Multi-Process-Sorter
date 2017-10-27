@@ -1,8 +1,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "sorter.h"
+#include "mergesort.c"
 
-/*
+
 
 void print_csv_file(Records** finalInput, int arraySize){
   char fileName[] = "sortedMovies.csv";
@@ -328,15 +330,15 @@ fclose(file);
 }
 
 
-*/
-int start(char* fileName) {
+
+int start(char* filePath, char* filename, char *param) {
     //Records* input[5000];
     char current[200];
-    int length=strlen(fileName);
-    int i=0;
-    while(i<length){
-        current[i]=fileName[i];
-        i++;
+    int length=strlen(filePath);
+    int t=0;
+    while(t<length){
+        current[t]=filePath[t];
+        t++;
     }
 
     printf("this is i %s\n",current);
@@ -349,62 +351,59 @@ int start(char* fileName) {
    // while(!feof(fp)){
      //   printf("wow");
     //}
-   char *line=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
-    fgets(line,500,fp);
+   char *categories=(char*)malloc(sizeof(char)*500);//this will hold the current line till its parsed
+    fgets(categories,500,fp);
     //fgets(current, 5000,fp);
-    i =0;
-    length=strlen(line);
-    int count=0;
+    t =0;
+    length=strlen(categories);
+    int c=0;
 
-    while(i<length)
+    while(t<length)
     {
-        if(line[i]==','){
-            count++;
+        if(categories[t]==','){
+            c++;
         }
-        i++;
+        t++;
     }
 
-    if(count !=26){
-        //////////////////close
+    if(c !=26){
+    printf("invalid amount of categories\n");
+    exit(1);
     }
    // printf("this is first line %s \n",line);
 
     Records* input= (Records*)malloc(sizeof(Records)*8000);
     //printf("input size %d\n", sizeof(input));
-    if(argc != 3)
-    {
-        printf("You have input the wrong amount of arguments!");
-        exit(1);
-    }
+
     if(
-    strcmp(argv[2], "color")!= 0
-    && strcmp(argv[2], "director_name")!= 0
-    && strcmp(argv[2], "num_critic_for_reviews")!= 0
-    && strcmp(argv[2], "duration")!= 0
-    && strcmp(argv[2], "director_facebook_likes")!= 0
-    && strcmp(argv[2], "actor_3_facebook_likes")!= 0
-    && strcmp(argv[2], "actor_2_name")!= 0
-    && strcmp(argv[2], "actor_1_facebook_likes")!= 0
-    && strcmp(argv[2], "gross")!= 0
-    && strcmp(argv[2], "genres")!= 0
-    && strcmp(argv[2], "actor_1_name")!= 0
-    && strcmp(argv[2], "movie_title")!= 0
-    && strcmp(argv[2], "num_voted_users")!= 0
-    && strcmp(argv[2], "cast_total_facebook_likes")!= 0
-    && strcmp(argv[2], "actor_3_name")!= 0
-    && strcmp(argv[2], "facenumber_in_poster")!= 0
-    && strcmp(argv[2], "plot_keywords")!= 0
-    && strcmp(argv[2], "movie_imdb_link")!= 0
-    && strcmp(argv[2], "num_user_for_reviews")!= 0
-    && strcmp(argv[2], "language")!= 0
-    && strcmp(argv[2], "country")!= 0
-    && strcmp(argv[2], "content_rating")!= 0
-    && strcmp(argv[2], "budget")!= 0
-    && strcmp(argv[2], "title_year")!= 0
-    && strcmp(argv[2], "actor_2_facebook_likes")!= 0
-    && strcmp(argv[2], "imdb_score")!= 0
-    && strcmp(argv[2], "aspect_ratio")!= 0
-    && strcmp(argv[2], "movie_facebook_likes")!= 0){
+    strcmp(param, "color")!= 0
+    && strcmp(param, "director_name")!= 0
+    && strcmp(param, "num_critic_for_reviews")!= 0
+    && strcmp(param, "duration")!= 0
+    && strcmp(param, "director_facebook_likes")!= 0
+    && strcmp(param, "actor_3_facebook_likes")!= 0
+    && strcmp(param, "actor_2_name")!= 0
+    && strcmp(param, "actor_1_facebook_likes")!= 0
+    && strcmp(param, "gross")!= 0
+    && strcmp(param, "genres")!= 0
+    && strcmp(param, "actor_1_name")!= 0
+    && strcmp(param, "movie_title")!= 0
+    && strcmp(param, "num_voted_users")!= 0
+    && strcmp(param, "cast_total_facebook_likes")!= 0
+    && strcmp(param, "actor_3_name")!= 0
+    && strcmp(param, "facenumber_in_poster")!= 0
+    && strcmp(param, "plot_keywords")!= 0
+    && strcmp(param, "movie_imdb_link")!= 0
+    && strcmp(param, "num_user_for_reviews")!= 0
+    && strcmp(param, "language")!= 0
+    && strcmp(param, "country")!= 0
+    && strcmp(param, "content_rating")!= 0
+    && strcmp(param, "budget")!= 0
+    && strcmp(param, "title_year")!= 0
+    && strcmp(param, "actor_2_facebook_likes")!= 0
+    && strcmp(param, "imdb_score")!= 0
+    && strcmp(param, "aspect_ratio")!= 0
+    && strcmp(param, "movie_facebook_likes")!= 0){
     printf("invalid parameter\n");
     exit(1);
   }
@@ -693,14 +692,15 @@ int start(char* fileName) {
             s++;
 
     }
-    const char *param = argv[2];
+    //const char *param = argv[2];
+    const char *sortBY=param;
     //Determine index to sort on
     //printf("param HERE %s\n", param);
-   int indexToSortOn = findColumnIndex(param);
+   int indexToSortOn = findColumnIndex(sortBY);
    //printf("indexToSortOn %d\n", indexToSortOn);
    //printf("param after index %s\n", param);
     //Determine datatype of index
-    data_type = findColumnType(param);
+    data_type = findColumnType(sortBY);
     //printf("data_type %s\n", data_type);
     //printf("param %s\n", param);
     //if statement for invalid
@@ -709,7 +709,7 @@ int start(char* fileName) {
     int arraySize = s;
     int q=0;
 
-        mergeSort(&input,0,s-1,data_type,param);
+        mergeSort(&input,0,s-1,data_type,sortBY);
         for(q=0; q<s; q++){
       printf("this is title %s\n",input[q].movie_title);
         }

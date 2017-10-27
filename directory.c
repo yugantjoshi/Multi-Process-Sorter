@@ -1,4 +1,3 @@
-// Created by Hanxiong Chen
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -6,18 +5,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
-//#include "sorter.c"
+#include "sorter.c"
 
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-void printDirInfo(char *dir) {
+int arr[256];
+int p;
+
+void printDirInfo(char *dir, char* param) {
     int initialpidBool=0;
     int initialpid=0;
     int pid;
 
-    int arr[256];
-    int p=0;
 
 	DIR *dp = NULL;
 	struct dirent *curObj = NULL;
@@ -84,8 +84,8 @@ void printDirInfo(char *dir) {
 			int length=strlen(newPath);
 			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-                //start(newPath);
-                printf("hello\n");
+                start(newPath,curObj->d_name,param);
+                //printf("hello\n");
 
                 if(initialpidBool==0){
                     initialpidBool++;
@@ -134,7 +134,7 @@ void printDirInfo(char *dir) {
 
 			strcat(newPath, curObj->d_name);
 			printf(ANSI_COLOR_BLUE "%s" ANSI_COLOR_RESET "\n", newPath);
-			printDirInfo(newPath);
+			printDirInfo(newPath,param);
 			free(newPath);
 		}
 	}
@@ -143,11 +143,14 @@ void printDirInfo(char *dir) {
 }
 
 int main(int argc, char * argv[]) {
+    p=0;
 	char * base = ".";
+	char * param = argv[2];
+	printf("this is argc %s\n", param);
 	if (argc == 3) {
 		//base = argv[1];
 		printf("Directory index from %s\n", base);
-	printDirInfo(base);
+	printDirInfo(base,param);
 	}
 
 
@@ -157,7 +160,7 @@ int main(int argc, char * argv[]) {
 		strcpy(givenDir,base);
         strcat(givenDir,argv[4]);
 		printf("Directory index from %s\n", givenDir);
-        printDirInfo(givenDir);
+        printDirInfo(givenDir,param);
 	}
 
 	return 0;
