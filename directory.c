@@ -12,8 +12,8 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 void printDirInfo(char *dir) {
-   // int initialpidBool=0;
-   // int initialpid=0;
+    int initialpidBool=0;
+    int initialpid=0;
     int pid;
 
     int arr[256];
@@ -87,7 +87,11 @@ void printDirInfo(char *dir) {
                 //start(newPath);
                 printf("hello\n");
 
-
+                if(initialpidBool==0){
+                    initialpidBool++;
+                    pid=fork();
+                 printf("my process ID is %d\n", getpid());
+                }else{
                 pid=fork();
                 arr[p]=getpid();
                 p++;
