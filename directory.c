@@ -10,8 +10,8 @@
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-int arr[256];
-int p;
+pid_t arr[256];
+int p=0;
 
 void printDirInfo(char *dir, char* param) {
     int initialpidBool=0;
@@ -34,42 +34,12 @@ void printDirInfo(char *dir, char* param) {
 			char * newPath = (char *) malloc(strlen(curObj->d_name)
 					+ strlen(dir) + 2);
 
-			/* gurantee that strcpy works */
 			newPath[0] = '\0';
 			strcpy(newPath, dir);
 			strcat(newPath, "/");
 			strcat(newPath, curObj->d_name);
 
-			/* for the assignment you can do:
-			 * int pid = fork();
-			 * if child process:
-			 *	  sorter("path_of_file");
-			 *
-			 * if parent process:
-			 *	  (keep searching the files)
-			 * Think about how to record all the
-			 * PIDs.
-			 *
-			 * //////////////////////////////
-			 * 1. you can put the wait() call in
-			 * a signal_handler to get a
-			 * non-block parent program. sorter()
-			 * function is your project 0.
-			 *
-			 * 2. You need to modify your code to
-			 * make your first project be a sorting
-			 * module instead of a lonely executable.
-			 *
-			 * 3. I recommend you to change your
-			 * project 0 code to be a library and
-			 * include the sorter library header
-			 * file in this project. This will make
-			 * your code clean. Or you can just
-			 * write all the functions in one source
-			 * file.
-			 * //////////////////////////////
-			 * */
-			/* check the file size */
+
 			int fd = open(newPath, O_RDONLY);
 			if (fd < 0) {
 				fprintf(stderr, "Can't open file: %s\n", newPath);
@@ -84,32 +54,20 @@ void printDirInfo(char *dir, char* param) {
 			int length=strlen(newPath);
 			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-                start(newPath,curObj->d_name,param);
-                //printf("hello\n");
 
-                if(initialpidBool==0){
-                    initialpidBool++;
-                    pid=fork();
-                 printf("my process ID is %d\n", getpid());
-                }else{
+
                 pid=fork();
-                arr[p]=getpid();
+                start(newPath,curObj->d_name,param);
+               arr[p]=getpid();
+                 printf("arrp %d\n",arr[p]);
                 p++;
-                }
+
 
 
 
 
 			}
-			//check if its csv file
-			/*
-			int pid=fork();
-			if(pid==0){
-                printf("are\n");
-			}else{
-			wait();
-			}
-			*/
+
 			free(newPath);
 
 
@@ -121,19 +79,18 @@ void printDirInfo(char *dir, char* param) {
 
 			newPath[0] = '\0';
 
-			/* choice 1: do not add ./ to directory
-			if (strcmp(dir, ".")) {
-				strcpy(newPath, dir);
-				strcat(newPath, "/");
-			}*/
-		    ///////////////////////
-			// choice 2: add ./ to directory
 			strcpy(newPath, dir);
 			strcat(newPath, "/");
 		    //////////////////////
 
 			strcat(newPath, curObj->d_name);
 			printf(ANSI_COLOR_BLUE "%s" ANSI_COLOR_RESET "\n", newPath);
+			 pid=fork();
+               arr[p]=getpid();
+                 printf("arrp %d\n",arr[p]);
+                p++;
+
+
 			printDirInfo(newPath,param);
 			free(newPath);
 		}
@@ -143,7 +100,7 @@ void printDirInfo(char *dir, char* param) {
 }
 
 int main(int argc, char * argv[]) {
-    p=0;
+
 	char * base = ".";
 	char * param = argv[2];
 	if (argc == 3) {
@@ -161,6 +118,23 @@ int main(int argc, char * argv[]) {
 		printf("Directory index from %s\n", givenDir);
         printDirInfo(givenDir,param);
 	}
+
+	printf("this is p %d\n",p);
+	int the_process=1;
+
+	printf("Initial PID: %d\n",arr[0]);
+	printf("PIDS of all child processes: ");
+	while(the_process<p){
+
+                 printf("%d, ",arr[the_process]);
+                 the_process++;
+	}
+
+	printf("\nTotal number of processes: %d\n",p);
+
+
+
+
 
 	return 0;
 }

@@ -60,7 +60,7 @@ void print_csv_file(Records** finalInput, int arraySize){
 }
 
 void printRecord(Records* input, int s){
-     printf("printRecord\n");
+
   int arraySize = s;
   int t=0;
   for(t=0; t<arraySize; t++){
@@ -72,7 +72,7 @@ void printRecord(Records* input, int s){
 
 
 char* findColumnType(const char* value){
-     printf("findColunType\n");
+
     char *data_type = (char*)malloc(sizeof(char*)*30);
     //printf("value %s\n", value);
     //printf("findColumnType value %s\n", value);
@@ -395,6 +395,7 @@ int start(char* filePath, char* filename, char *param) {
     for(y =0; y<10; y++){
       data_type[i] = '-';
     }
+    data_type=findColumnType(param);
 
     int countline=0;
     while(countline<amount_of_lines)
@@ -657,20 +658,23 @@ int start(char* filePath, char* filename, char *param) {
 
     //const char *param = argv[2];
    const char *sortBY=param;
-    printf("this is param %s\n",sortBY);
+
 
     free(categories);
     int arraySize = s;
     int q=0;
 
-       mergeSort(&input,0,s-1,data_type,sortBY);
+
+
+    mergeSort(&input,0,s-1,data_type,sortBY);
+    /*
     for(q=0; q<s; q++)
     {
-      printf("this is title %s\n",input[q].director_name);
+      printf("this is title %s\n",input[q].movie_title);
 }
+*/
 
-
-        //print_csv_file(&input, arraySize-1);
+        print_csv_file(&input, arraySize-1);
 //
 
 
