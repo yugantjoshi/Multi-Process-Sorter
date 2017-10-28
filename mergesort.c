@@ -1190,6 +1190,7 @@ void merge(Records** arr, int l, int m, int r, char * data_type, const char* par
 void mergeSort(Records ** input, int l, int r, char* data_type,const char* param)
 {
 
+
     //printf("this is records %s,left %i,right%i \n",input[0].director_name,l,r);
     //printf("this is data type %s and param %s\n",data_type,param);
 

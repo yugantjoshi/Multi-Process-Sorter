@@ -365,17 +365,17 @@ int start(char* filePath, char* filename, char *param) {
     exit(1);
   }
 
-  int amount_of_lines=0;
-   while(!feof(fp))
+    int amount_of_lines=0;
+    while(!feof(fp))
     {
      fgets(categories,500,fp);
      amount_of_lines++;
     }
-    printf("amount of line %d\n",amount_of_lines);
+
     amount_of_lines--;
     rewind(fp);
 
-     fgets(categories,500,fp);
+    fgets(categories,500,fp);
 
 
     int count=450;//counts the lines we reach;
@@ -413,10 +413,6 @@ int start(char* filePath, char* filename, char *param) {
 
         fgets(line,500,fp);
 
-
-        printf("this is first line %s\n",line);
-       // printf("this is line %s\n",line);
-       // printf("this is i %i and strlen %i\n",i,strlen(line));
         while(i < strlen(line))
         {
 
@@ -661,26 +657,17 @@ int start(char* filePath, char* filename, char *param) {
 
     //const char *param = argv[2];
    const char *sortBY=param;
-    //Determine index to sort on
-    //printf("param HERE %s\n", param);
-
-  // int indexToSortOn = findColumnIndex(sortBY);
-   //printf("indexToSortOn %d\n", indexToSortOn);
-   //printf("param after index %s\n", param);
-    //Determine datatype of index
-    //data_type = findColumnType(sortBY);
-    //printf("data_type %s\n", data_type);
-    //printf("param %s\n", param);
-    //if statement for invalid
+    printf("this is param %s\n",sortBY);
 
     free(categories);
     int arraySize = s;
     int q=0;
 
-       // mergeSort(&input,0,s-1,data_type,sortBY);
-        for(q=0; q<s; q++){
-      printf("this is title %s\n",input[q].movie_title);
-        }
+       mergeSort(&input,0,s-1,data_type,sortBY);
+    for(q=0; q<s; q++)
+    {
+      printf("this is title %s\n",input[q].director_name);
+}
 
 
         //print_csv_file(&input, arraySize-1);
