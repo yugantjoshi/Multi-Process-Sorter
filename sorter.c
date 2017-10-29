@@ -5,60 +5,6 @@
 #include "mergesort.c"
 
 
-
-void print_csv_file(Records** finalInput, int arraySize){
-
-  char fileName[] = "sortedMovies.csv";
-  FILE *file = fopen(fileName, "w");
-
-  int i=0;
-
-  while(i!=arraySize-1){
-
-    fprintf(file, "%s,", (*finalInput)[i].color);
-    fprintf(file, "%s,", (*finalInput)[i].director_name);
-    fprintf(file, "%d,", (*finalInput)[i].num_critic_for_reviews);
-    fprintf(file, "%d,", (*finalInput)[i].duration);
-    fprintf(file, "%d,", (*finalInput)[i].director_facebook_likes);
-    fprintf(file, "%d,", (*finalInput)[i].actor_3_facebook_likes);
-    fprintf(file, "%s,", (*finalInput)[i].actor_2_name);
-    fprintf(file, "%d,", (*finalInput)[i].actor_1_facebook_likes);
-    //printf("GROSS: %d\n", (*finalInput)[i].gross);
-    fprintf(file, "%d,", (*finalInput)[i].gross);
-    //printf("final gross: %d\n", (*finalInput)[i].gross);
-    fprintf(file, "%s,", (*finalInput)[i].genres);
-    fprintf(file, "%s,", (*finalInput)[i].actor_1_name);
-    fprintf(file, "%s,", (*finalInput)[i].movie_title);
-    fprintf(file, "%d,", (*finalInput)[i].num_voted_users);
-    fprintf(file, "%d,", (*finalInput)[i].cast_total_facebook_likes);
-    fprintf(file, "%s,", (*finalInput)[i].actor_3_name);
-    fprintf(file, "%d,", (*finalInput)[i].facenumber_in_poster);
-    fprintf(file, "%s,", (*finalInput)[i].plot_keywords);
-    fprintf(file, "%s,", (*finalInput)[i].movie_imdb_link);
-    fprintf(file, "%d,", (*finalInput)[i].num_user_for_reviews);
-    fprintf(file, "%s,", (*finalInput)[i].language);
-    fprintf(file, "%s,", (*finalInput)[i].country);
-    fprintf(file, "%s,", (*finalInput)[i].content_rating);
-    fprintf(file, "%d,", (*finalInput)[i].budget);
-    fprintf(file, "%d,", (*finalInput)[i].title_year);
-    fprintf(file, "%d,", (*finalInput)[i].actor_2_facebook_likes);
-    fprintf(file, "%d,", (*finalInput)[i].imdb_score);
-    fprintf(file, "%d,", (*finalInput)[i].aspect_ratio);
-    fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
-    i++;
-
-  }
-  i=0;
-  while(i!=arraySize-1){
-
-    fprintf(file, "%d,", (*finalInput)[i].gross);
-
-    i++;
-
-  }
-  fclose(file);
-}
-
 void printRecord(Records* input, int s){
 
   int arraySize = s;
@@ -654,30 +600,15 @@ int start(char* filePath, char* filename, char *param) {
             s++;
 
     }
-
-
     //const char *param = argv[2];
-   const char *sortBY=param;
-
+    const char *sortBY=param;
 
     free(categories);
     int arraySize = s;
     int q=0;
 
-
-
     mergeSort(&input,0,s-1,data_type,sortBY);
-    /*
-    for(q=0; q<s; q++)
-    {
-      printf("this is title %s\n",input[q].movie_title);
-}
-*/
-
-        print_csv_file(&input, arraySize-1);
-//
-
+    print_csv_file(&input, s, filePath, filename, sortBY);
 
     return 0;
 }
-

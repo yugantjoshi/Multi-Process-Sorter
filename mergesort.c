@@ -1,6 +1,73 @@
 #include<stdlib.h>
 #include<stdio.h>
 
+void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, char* sortedColumn){
+
+      char* filename = (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)));
+
+      char* modifiedOriginalFilename = (char*)calloc(1, sizeof(originalFilename));
+
+      int i;
+      for(i=0; i<strlen(originalFilename)-4; i++){
+        modifiedOriginalFilename[i] = originalFilename[i];
+      }
+
+      strcat(filename, modifiedOriginalFilename);
+      strcat(filename, "-sorted-");
+      strcat(filename, sortedColumn);
+      //strcat(filename, ".csv");
+
+      printf("filename: %s\n", filename);
+
+      FILE *file = fopen(filename, "w");
+
+      i=0;
+
+      while(i!=arraySize-1){
+
+        fprintf(file, "%s,", (*finalInput)[i].color);
+        fprintf(file, "%s,", (*finalInput)[i].director_name);
+        fprintf(file, "%d,", (*finalInput)[i].num_critic_for_reviews);
+        fprintf(file, "%d,", (*finalInput)[i].duration);
+        fprintf(file, "%d,", (*finalInput)[i].director_facebook_likes);
+        fprintf(file, "%d,", (*finalInput)[i].actor_3_facebook_likes);
+        fprintf(file, "%s,", (*finalInput)[i].actor_2_name);
+        fprintf(file, "%d,", (*finalInput)[i].actor_1_facebook_likes);
+        //printf("GROSS: %d\n", (*finalInput)[i].gross);
+        fprintf(file, "%d,", (*finalInput)[i].gross);
+        //printf("final gross: %d\n", (*finalInput)[i].gross);
+        fprintf(file, "%s,", (*finalInput)[i].genres);
+        fprintf(file, "%s,", (*finalInput)[i].actor_1_name);
+        fprintf(file, "%s,", (*finalInput)[i].movie_title);
+        fprintf(file, "%d,", (*finalInput)[i].num_voted_users);
+        fprintf(file, "%d,", (*finalInput)[i].cast_total_facebook_likes);
+        fprintf(file, "%s,", (*finalInput)[i].actor_3_name);
+        fprintf(file, "%d,", (*finalInput)[i].facenumber_in_poster);
+        fprintf(file, "%s,", (*finalInput)[i].plot_keywords);
+        fprintf(file, "%s,", (*finalInput)[i].movie_imdb_link);
+        fprintf(file, "%d,", (*finalInput)[i].num_user_for_reviews);
+        fprintf(file, "%s,", (*finalInput)[i].language);
+        fprintf(file, "%s,", (*finalInput)[i].country);
+        fprintf(file, "%s,", (*finalInput)[i].content_rating);
+        fprintf(file, "%d,", (*finalInput)[i].budget);
+        fprintf(file, "%d,", (*finalInput)[i].title_year);
+        fprintf(file, "%d,", (*finalInput)[i].actor_2_facebook_likes);
+        fprintf(file, "%d,", (*finalInput)[i].imdb_score);
+        fprintf(file, "%d,", (*finalInput)[i].aspect_ratio);
+        fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
+        i++;
+
+      }
+      i=0;
+      while(i!=arraySize-1){
+
+        fprintf(file, "%d,", (*finalInput)[i].gross);
+
+        i++;
+
+      }
+      fclose(file);
+    }
 
 void merge(Records** arr, int l, int m, int r, char * data_type, const char* param)
 {
@@ -1086,18 +1153,14 @@ void merge(Records** arr, int l, int m, int r, char * data_type, const char* par
 
 void mergeSort(Records ** input, int l, int r, char* data_type,const char* param)
 {
-
-
     if (l < r)
     {
         int m = l+(r-l)/2;
 
         mergeSort(input, l, m, data_type,param);
         mergeSort(input, m+1, r,data_type,param);
-
-       merge(input, l, m, r, data_type,param);
+        merge(input, l, m, r, data_type,param);
     }
-
 }
 
 
