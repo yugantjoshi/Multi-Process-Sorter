@@ -13,20 +13,18 @@
 pid_t arr[256];
 int p=0;
 
-bool isAlreadySorted(char* newPath){
+char* isAlreadySorted(char* newPath){
   int i=0;
+  printf("CALLING: IS ALREADY SORTED\n");
+  printf("NEW PATH %s\n", newPath);
   for(i=0; i<strlen(newPath); i++){
-    if(newPath[i] == 's'
-    && newPath[i+1] == 'o'
-    && newPath[i+2] == 'r'
-    && newPath[i+3] == 't'
-    && newPath[i+4] == 'e'
-    && newPath[i+5] == 'd'){
-      return true;
+    if(newPath[i] == 's' && newPath[i+1] == 'o' && newPath[i+2] == 'r' && newPath[i+3] == 't'
+      && newPath[i+4] == 'e' && newPath[i+5] == 'd'){
+      printf("THIS FILE IS ALREADY SORTED\n");
+      return 't';
     }
   }
-  return false;
-
+  return 'f';
 }
 
 void printDirInfo(char *dir, char* param) {
@@ -70,7 +68,7 @@ void printDirInfo(char *dir, char* param) {
 			int length=strlen(newPath);
 			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-            if(isAlreadySorted(newPath) == false){
+            if(isAlreadySorted(newPath) == 'f'){
               pid=fork();
               start(newPath,curObj->d_name,param);
              arr[p]=getpid();

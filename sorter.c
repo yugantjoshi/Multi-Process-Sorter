@@ -445,7 +445,7 @@ int start(char* filePath, char* filename, char *param) {
 
 
                             if(line[i]== ','){
-                                printf("i should make it in here after second I \n");
+                                //printf("i should make it in here after second I \n");
                                 token[j]=' ';
                             }else if(line[i]== '"'){
                             token[j]=' ';
