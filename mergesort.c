@@ -23,7 +23,7 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
 
       i=0;
 
-      while(i!=arraySize-1){
+      while(i!=arraySize){
 
         fprintf(file, "%s,", (*finalInput)[i].color);
         fprintf(file, "%s,", (*finalInput)[i].director_name);
@@ -56,15 +56,6 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
         fprintf(file, "%d,", (*finalInput)[i].aspect_ratio);
         fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
         i++;
-
-      }
-      i=0;
-      while(i!=arraySize-1){
-
-        fprintf(file, "%d,", (*finalInput)[i].gross);
-
-        i++;
-
       }
       fclose(file);
     }

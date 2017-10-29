@@ -13,6 +13,22 @@
 pid_t arr[256];
 int p=0;
 
+bool isAlreadySorted(char* newPath){
+  int i=0;
+  for(i=0; i<strlen(newPath); i++){
+    if(newPath[i] == 's'
+    && newPath[i+1] == 'o'
+    && newPath[i+2] == 'r'
+    && newPath[i+3] == 't'
+    && newPath[i+4] == 'e'
+    && newPath[i+5] == 'd'){
+      return true;
+    }
+  }
+  return false;
+
+}
+
 void printDirInfo(char *dir, char* param) {
     int initialpidBool=0;
     int initialpid=0;
@@ -54,17 +70,13 @@ void printDirInfo(char *dir, char* param) {
 			int length=strlen(newPath);
 			//printf("file name hm %s\n", curObj->d_name);
 			if(newPath[length-1]=='v'||newPath[length-2]=='s'||newPath[length-3]=='c'){
-
-
-                pid=fork();
-                start(newPath,curObj->d_name,param);
-               arr[p]=getpid();
-                 printf("arrp %d\n",arr[p]);
-                p++;
-
-
-
-
+            if(isAlreadySorted(newPath) == false){
+              pid=fork();
+              start(newPath,curObj->d_name,param);
+             arr[p]=getpid();
+               printf("arrp %d\n",arr[p]);
+              p++;
+            }
 
 			}
 
