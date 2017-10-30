@@ -243,7 +243,22 @@ int findColumnIndex(const char* value){
 }
 
 
-int start(char* filePath, char* filename, char *param) {
+int start(char* filePath, char* filename, char *param, char*pathWOcsv, char* thatDir) {
+    int pathLength=strlen(filePath)-strlen(filename);
+
+    printf("sdsdsfdfdsfdfsdfffffffffff %s\n",thatDir);
+
+     char *WOcsvtoken=(char*)malloc(sizeof(char*)*50);
+     int n=0;
+     while(n<pathLength-1){
+
+        WOcsvtoken[n]=filePath[n];
+        n++;
+     }
+     printf("this is toke %s\n",WOcsvtoken);
+
+
+
     char current[200];
     int length=strlen(filePath);
     int t=0;
@@ -252,6 +267,23 @@ int start(char* filePath, char* filename, char *param) {
         t++;
     }
 
+    /*
+    printf("this is the filePath %s",current);
+    int r=length;
+    r++;
+    char dirPath[200];
+    strncpy(dirPath, current, 200);
+
+    while(r>0 || r != '/')
+    {
+     printf("this is the dirPath %c",dirPath[r]);
+    dirPath[r]=' ';
+        r--;
+    }
+
+    printf("this is the dirPath %s",dirPath);
+
+*/
     FILE *fp;
     fp = fopen(current,"r");
 
@@ -608,7 +640,15 @@ int start(char* filePath, char* filename, char *param) {
     int q=0;
 
     mergeSort(&input,0,s-1,data_type,sortBY);
-    print_csv_file(&input, s, filePath, filename, sortBY);
+
+    if(thatDir[0]=='n'){
+     print_csv_file(&input, s, filePath, filename, sortBY,WOcsvtoken);
+    }else{
+
+    Thirdprint_csv_file(&input, s, filePath, filename, sortBY,thatDir);
+
+    }
+
 
     return 0;
 }
