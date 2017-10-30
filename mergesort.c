@@ -1,25 +1,54 @@
 #include<stdlib.h>
 #include<stdio.h>
+#include <dirent.h>
 
-void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, char* sortedColumn){
+void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, const char* sortedColumn, char*pathWOcsv){
 
-      char* filename = (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)));
 
-      char* modifiedOriginalFilename = (char*)calloc(1, sizeof(originalFilename));
 
-      int i;
-      for(i=0; i<strlen(originalFilename)-4; i++){
+      char* filename = (char*)malloc(sizeof(char*)*100);
+//char * filename= (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)+strlen(pathWOcsv)+3));
+
+      char* modifiedOriginalFilename = (char*)malloc(sizeof(char*)*100);
+
+
+
+
+      strcat(filename, pathWOcsv);
+      //mkdir("syd", 0700);
+     // strcat(filename, "./syd");
+      strcat(filename, "/");
+
+
+
+
+       int i=0;
+      while(i<strlen(originalFilename)-4){
         modifiedOriginalFilename[i] = originalFilename[i];
+        i++;
       }
 
+      strcat(filename, modifiedOriginalFilename);
+      strcat(filename, "-sorted-");
+      strcat(filename, sortedColumn);
+      strcat(filename, ".csv");
+
+    printf("yeay yea %s\n",filename);
+      /*
       strcat(filename, modifiedOriginalFilename);
       strcat(filename, "-sorted-");
       strcat(filename, sortedColumn);
       //strcat(filename, ".csv");
 
       printf("filename: %s\n", filename);
+       // struct dirent *pDirent;
+        //DIR *pDir;
+        //pDir = opendir ("./tests/");
 
-      FILE *file = fopen(filename, "w");
+
+
+      */
+    FILE *file = fopen(filename, "w");
 
       i=0;
 
@@ -57,8 +86,103 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
         fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
         i++;
       }
-      fclose(file);
-    }
+
+
+
+    fclose(file);
+}
+
+
+
+void Thirdprint_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, const char* sortedColumn, char*pathWOcsv){
+
+
+
+      char* filename = (char*)malloc(sizeof(char*)*100);
+//char * filename= (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)+strlen(pathWOcsv)+3));
+
+      char* modifiedOriginalFilename = (char*)malloc(sizeof(char*)*100);
+
+
+
+
+      //strcat(filename, pathWOcsv);
+      mkdir(pathWOcsv, 0700);
+      strcat(filename, pathWOcsv);
+      strcat(filename, "/");
+
+
+
+
+       int i=0;
+      while(i<strlen(originalFilename)-4){
+        modifiedOriginalFilename[i] = originalFilename[i];
+        i++;
+      }
+
+      strcat(filename, modifiedOriginalFilename);
+      strcat(filename, "-sorted-");
+      strcat(filename, sortedColumn);
+      strcat(filename, ".csv");
+
+    printf("yeay yea %s\n",filename);
+      /*
+      strcat(filename, modifiedOriginalFilename);
+      strcat(filename, "-sorted-");
+      strcat(filename, sortedColumn);
+      //strcat(filename, ".csv");
+
+      printf("filename: %s\n", filename);
+       // struct dirent *pDirent;
+        //DIR *pDir;
+        //pDir = opendir ("./tests/");
+
+
+
+      */
+    FILE *file = fopen(filename, "w");
+
+      i=0;
+
+      while(i!=arraySize){
+
+        fprintf(file, "%s,", (*finalInput)[i].color);
+        fprintf(file, "%s,", (*finalInput)[i].director_name);
+        fprintf(file, "%d,", (*finalInput)[i].num_critic_for_reviews);
+        fprintf(file, "%d,", (*finalInput)[i].duration);
+        fprintf(file, "%d,", (*finalInput)[i].director_facebook_likes);
+        fprintf(file, "%d,", (*finalInput)[i].actor_3_facebook_likes);
+        fprintf(file, "%s,", (*finalInput)[i].actor_2_name);
+        fprintf(file, "%d,", (*finalInput)[i].actor_1_facebook_likes);
+        //printf("GROSS: %d\n", (*finalInput)[i].gross);
+        fprintf(file, "%d,", (*finalInput)[i].gross);
+        //printf("final gross: %d\n", (*finalInput)[i].gross);
+        fprintf(file, "%s,", (*finalInput)[i].genres);
+        fprintf(file, "%s,", (*finalInput)[i].actor_1_name);
+        fprintf(file, "%s,", (*finalInput)[i].movie_title);
+        fprintf(file, "%d,", (*finalInput)[i].num_voted_users);
+        fprintf(file, "%d,", (*finalInput)[i].cast_total_facebook_likes);
+        fprintf(file, "%s,", (*finalInput)[i].actor_3_name);
+        fprintf(file, "%d,", (*finalInput)[i].facenumber_in_poster);
+        fprintf(file, "%s,", (*finalInput)[i].plot_keywords);
+        fprintf(file, "%s,", (*finalInput)[i].movie_imdb_link);
+        fprintf(file, "%d,", (*finalInput)[i].num_user_for_reviews);
+        fprintf(file, "%s,", (*finalInput)[i].language);
+        fprintf(file, "%s,", (*finalInput)[i].country);
+        fprintf(file, "%s,", (*finalInput)[i].content_rating);
+        fprintf(file, "%d,", (*finalInput)[i].budget);
+        fprintf(file, "%d,", (*finalInput)[i].title_year);
+        fprintf(file, "%d,", (*finalInput)[i].actor_2_facebook_likes);
+        fprintf(file, "%d,", (*finalInput)[i].imdb_score);
+        fprintf(file, "%d,", (*finalInput)[i].aspect_ratio);
+        fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
+        i++;
+      }
+
+
+
+    fclose(file);
+}
 
 void merge(Records** arr, int l, int m, int r, char * data_type, const char* param)
 {
@@ -1161,33 +1285,20 @@ void mergeSort(Records ** input, int l, int r, char* data_type,const char* param
 /*
 void printArray(int A[], int size)
 {
-
     int i;
     for (i=0; i < size; i++)
         printf("%d ", A[i]);
     printf("\n");
 }
-
-
-
-
-
 int main()
 {
-
-
     int arr[] = {12, 11, 13, 5, 6, 7};
     int arr_size = sizeof(arr)/sizeof(arr[0]);
-
     printf("Given array is \n");
     printArray(arr, arr_size);
-
     mergeSort(arr, 0, arr_size - 1);
-
     printf("\nSorted array is \n");
     printArray(arr, arr_size);
     return 0;
-
 }
-
 */
