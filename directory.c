@@ -208,6 +208,7 @@ void Case3printDirInfo(char *dir, char* param,char* thatDir) {
 			Case3printDirInfo(newPath,param,thatDir);
 			free(newPath);
 		}
+	wait();
 	}
 	closedir(dp);
 	return;
@@ -242,6 +243,22 @@ int main(int argc, char * argv[]) {
 		char * thatDir=argv[6];
         Case3printDirInfo(givenDir,param,thatDir);
 	}
+
+
+  //printf("this is p %d\n",p);
+	int the_process=1;
+
+	printf("Initial PID: %d\n",arr[0]);
+	printf("PIDS of all child processes: ");
+	while(the_process<p){
+
+                 printf("%d, ",arr[the_process]);
+                 the_process++;
+	}
+
+	printf("\nTotal number of processes: %d\n",p);
+
+
 
 
 	return 0;
