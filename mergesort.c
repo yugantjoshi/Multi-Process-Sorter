@@ -1,6 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include <dirent.h>
+#include "sorter.h"
 
 void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, const char* sortedColumn, char*pathWOcsv){
 
@@ -10,9 +11,6 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
 //char * filename= (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)+strlen(pathWOcsv)+3));
 
       char* modifiedOriginalFilename = (char*)malloc(sizeof(char*)*100);
-
-
-
 
       strcat(filename, pathWOcsv);
       //mkdir("syd", 0700);
@@ -33,7 +31,7 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
       strcat(filename, sortedColumn);
       strcat(filename, ".csv");
 
-    printf("yeay yea %s\n",filename);
+    //printf("yeay yea %s\n",filename);
       /*
       strcat(filename, modifiedOriginalFilename);
       strcat(filename, "-sorted-");
@@ -86,9 +84,8 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
         fprintf(file, "%d\n", (*finalInput)[i].movie_facebook_likes);
         i++;
       }
-
-
-
+      free(filename);
+      free(modifiedOriginalFilename);
     fclose(file);
 }
 
@@ -96,23 +93,15 @@ void print_csv_file(Records** finalInput, int arraySize, char* directoryPath, ch
 
 void Thirdprint_csv_file(Records** finalInput, int arraySize, char* directoryPath, char* originalFilename, const char* sortedColumn, char*pathWOcsv){
 
-
-
       char* filename = (char*)malloc(sizeof(char*)*100);
 //char * filename= (char*)calloc(1,sizeof(char*)*(strlen(originalFilename)+7+strlen(sortedColumn)+strlen(pathWOcsv)+3));
 
       char* modifiedOriginalFilename = (char*)malloc(sizeof(char*)*100);
 
-
-
-
       //strcat(filename, pathWOcsv);
       mkdir(pathWOcsv, 0700);
       strcat(filename, pathWOcsv);
       strcat(filename, "/");
-
-
-
 
        int i=0;
       while(i<strlen(originalFilename)-4){
@@ -125,7 +114,7 @@ void Thirdprint_csv_file(Records** finalInput, int arraySize, char* directoryPat
       strcat(filename, sortedColumn);
       strcat(filename, ".csv");
 
-    printf("yeay yea %s\n",filename);
+    //printf("yeay yea %s\n",filename);
       /*
       strcat(filename, modifiedOriginalFilename);
       strcat(filename, "-sorted-");
@@ -136,8 +125,6 @@ void Thirdprint_csv_file(Records** finalInput, int arraySize, char* directoryPat
        // struct dirent *pDirent;
         //DIR *pDir;
         //pDir = opendir ("./tests/");
-
-
 
       */
     FILE *file = fopen(filename, "w");
