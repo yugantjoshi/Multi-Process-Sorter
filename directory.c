@@ -244,8 +244,9 @@ int main(int argc, char * argv[]) {
         Case3printDirInfo(givenDir,param,thatDir);
 	}
 
-
   //printf("this is p %d\n",p);
+
+  wait();
 	int the_process=1;
 
 	printf("Initial PID: %d\n",arr[0]);
@@ -257,8 +258,6 @@ int main(int argc, char * argv[]) {
 	}
 
 	printf("\nTotal number of processes: %d\n",p);
-
-
 
 
 	return 0;
