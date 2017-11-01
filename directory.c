@@ -126,6 +126,7 @@ void Case3printDirInfo(char *dir, char* param,char* thatDir) {
     int initialpidBool=0;
     int initialpid=0;
     int pid;
+    //int status;
 
 
 	DIR *dp = NULL;
@@ -208,9 +209,17 @@ void Case3printDirInfo(char *dir, char* param,char* thatDir) {
 			Case3printDirInfo(newPath,param,thatDir);
 			free(newPath);
 		}
-	wait();
+
 	}
 	closedir(dp);
+
+	int j=0;
+	while(j<p){
+        wait(arr[j]);
+        j++;
+	}
+
+	//pid = wait(&status);
 	return;
 }
 
@@ -244,9 +253,10 @@ int main(int argc, char * argv[]) {
         Case3printDirInfo(givenDir,param,thatDir);
 	}
 
+
   //printf("this is p %d\n",p);
 
-  wait();
+  //wait();
 	int the_process=1;
 
 	printf("Initial PID: %d\n",arr[0]);
@@ -258,6 +268,8 @@ int main(int argc, char * argv[]) {
 	}
 
 	printf("\nTotal number of processes: %d\n",p);
+
+
 
 
 	return 0;
